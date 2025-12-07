@@ -15,21 +15,23 @@ describe('Address e2e', () => {
     await app.init();
   });
 
-  it('[GET] /address, should require auth', () => {
-    return request(app.getHttpServer()).get('/address').expect(401);
-  });
+  describe('[GET] /address', () => {
+    it('should require auth', () => {
+      return request(app.getHttpServer()).get('/address').expect(401);
+    });
 
-  it('[GET] /address, returns address with auth', () => {
-    const authHeader =
-      'Basic ' + Buffer.from('admin:password').toString('base64');
-    return request(app.getHttpServer())
-      .get('/address')
-      .set('Authorization', authHeader)
-      .expect(200)
-      .expect((res) => {
-        expect(res.body).toHaveProperty('id');
-        expect(res.body).toHaveProperty('address');
-      });
+    it('should return address with auth', () => {
+      const authHeader =
+        'Basic ' + Buffer.from('admin:password').toString('base64');
+      return request(app.getHttpServer())
+        .get('/address')
+        .set('Authorization', authHeader)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body).toHaveProperty('id');
+          expect(res.body).toHaveProperty('address');
+        });
+    });
   });
 
   afterAll(async () => {
